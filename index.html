@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>당후이득 - 브랜드 마케터 포트폴리오</title>
+    <style>
+        :root {
+            --primary-color: #002855; /* 남색 포인트 색 */
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --light-gray: #f8f9fa;
+            --border-gray: #e9ecef;
+            --placeholder-gray: #cccccc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 스크롤 애니메이션 클래스 */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            visibility: hidden;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* 네비게이션 바 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--border-gray);
+            z-index: 1000;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 첫 화면 (Hero 섹션) */
+        header.hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        header.hero h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        header.hero p.tagline {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #666;
+        }
+
+        /* 공통 섹션 스타일 */
+        section {
+            padding: 100px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        section h2.section-title {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+        }
+
+        /* 프로필 섹션 */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .img-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: var(--placeholder-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .profile-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .profile-info p.sub-info {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .bio-box {
+            background-color: var(--light-gray);
+            padding: 25px;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* 강점 / 역량 카드 */
+        .strength-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .strength-card {
+            background: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .strength-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,38,85,0.08);
+        }
+
+        .strength-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .strength-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-transform: capitalize;
+        }
+
+        /* 타임라인 경력 및 활동 */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 30px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 100%;
+            margin-left: 30px;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: -17px;
+            background-color: white;
+            border: 4px solid var(--primary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            padding: 25px;
+            background-color: var(--light-gray);
+            position: relative;
+            border-radius: 8px;
+        }
+
+        .timeline-content .date {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            color: #111;
+        }
+
+        .timeline-content h4 {
+            font-size: 1.05rem;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .timeline-details p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .timeline-details strong {
+            color: var(--primary-color);
+        }
+
+        /* 프로젝트 및 작업물 */
+        .project-card {
+            background-color: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+        }
+
+        .project-img {
+            height: 100%;
+            min-height: 250px;
+        }
+
+        .project-content {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-content h3 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .project-content .date {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .project-info-list p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* 스킬 및 어학/자격증 그리드 */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .skills-box {
+            background: var(--light-gray);
+            padding: 35px;
+            border-radius: 8px;
+        }
+
+        .skills-box h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tag {
+            background-color: white;
+            border: 1px solid var(--border-gray);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-list li strong {
+            color: var(--primary-color);
+        }
+
+        /* 연락처 및 푸터 */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 20px 30px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            margin: 30px 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom {
+            margin-top: 50px;
+            font-size: 0.85rem;
+            color: #aaa;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+
+        /* 반응형 스타일 (모바일 레이아웃 최적화) */
+        @media (max-width: 768px) {
+            header.hero h1 {
+                font-size: 3rem;
+            }
+            
+            header.hero p.tagline {
+                font-size: 1.3rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .img-placeholder {
+                height: 250px;
+            }
+
+            .strength-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card {
+                grid-template-columns: 1fr;
+            }
+
+            .project-img {
+                min-height: 200px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                display: none; /* 단순화를 위해 모바일에서는 기본 메뉴 숨김 처리 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 상단 네비게이션 -->
+    <nav>
+        <div class="logo">PORTFOLIO</div>
+        <ul>
+            <li><a href="#profile">Profile</a></li>
+            <li><a href="#strengths">Strengths</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+        </ul>
+    </nav>
+
+    <!-- 첫 화면 (Hero 섹션) -->
+    <header class="hero">
+        <h1>당후이득</h1>
+        <p class="tagline">toi thich ket ban</p>
+    </header>
+
+    <!-- 프로필 섹션 -->
+    <section id="profile" class="fade-in-section">
+        <h2 class="section-title">Profile</h2>
+        <div class="profile-grid">
+            <div class="img-placeholder">사진 들어갈 자리</div>
+            <div class="profile-info">
+                <h3>당후이득</h3>
+                <p class="sub-info">컴퓨터공학과 2학년 | 지원 직무: 브랜드 마케터</p>
+                <div class="bio-box">
+                    toi thich di du lich va ket ban o nhieu linh vuc va nhieu dat nuoc de hieu hon ve dat nuoc ma toi chua co cow hoi di den.
+                </div>
+                <div class="skills-box" style="padding: 20px; background: transparent; border: 1px solid var(--border-gray)">
+                    <h4 style="margin-bottom: 10px; color: var(--primary-color);">앞으로의 목표</h4>
+                    <p>고객 데이터를 바탕으로 사람들이 공감하는 캠페인을 만드는 마케터</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 강점 및 역량 섹션 -->
+    <section id="strengths" class="fade-in-section">
+        <h2 class="section-title">Strengths</h2>
+        <div class="strength-grid">
+            <div class="strength-card">
+                <div class="strength-icon">🤝</div>
+                <h3>hoa dong</h3>
+                <p>toi co the ket noi ban be lai voi nhau</p>
+            </div>
+            <div class="strength-card">
+                <div class="strength-icon">⚡</div>
+                <h3>nang dong</h3>
+                <p>toi co the khuay dong khi nhung dieu khong tot chuan bi say ra</p>
+            </div>
+            <div class="strength-card">
+                <div class="strength-icon">🌱</div>
+                <h3>tot tinh</h3>
+                <p>toi co the giup moi nguoi trong dieu kien ma toi co kha nang</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 경험 및 활동 타임라인 섹션 -->
+    <section id="experience" class="fade-in-section">
+        <h2 class="section-title">Experience</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="date">2025.03 ~ 2026.02</div>
+                    <h3>nguoi thuyet trinh</h3>
+                    <div class="timeline-details" style="margin-top: 10px;">
+                        <p><strong>역할 및 한 일:</strong> 발표자 역할을 맡아 활동 수행</p>
+                        <p><strong>결과:</strong> toi da giup nhom toi dat diem cao hon</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="date">2025.03 ~ 2026.02</div>
+                    <h3>khong co</h3>
+                    <div class="timeline-details" style="margin-top: 10px;">
+                        <p><strong>역할 및 한 일:</strong> khong co</p>
+                        <p><strong>결과:</strong> khong co</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 프로젝트 섹션 -->
+    <section id="projects" class="fade-in-section">
+        <h2 class="section-title">Projects</h2>
+        <div class="project-card">
+            <div class="img-placeholder project-img">사진 들어갈 자리</div>
+            <div class="project-content">
+                <h3>지역 카페 홍보안 기획서</h3>
+                <div class="date">2025.09</div>
+                <div class="project-info-list">
+                    <p><strong>설명:</strong> 손님 120명 설문 분석 후 홍보 전략 제안</p>
+                    <p><strong>성과:</strong> 공모전 우수상 수상</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 스킬 및 자격증 섹션 -->
+    <section id="skills" class="fade-in-section">
+        <h2 class="section-title">Skills & Credentials</h2>
+        <div class="skills-grid">
+            <div class="skills-box">
+                <h3>다룰 수 있는 도구</h3>
+                <div class="skill-tags">
+                    <span class="tag">엑셀 (피벗 테이블)</span>
+                    <span class="tag">캔바 (Canva)</span>
+                    <span class="tag">GA4</span>
+                </div>
+                <h3 style="margin-top: 30px;">관심사 & 취미</h3>
+                <div class="skill-tags">
+                    <span class="tag">광고 영상 모으기</span>
+                    <span class="tag">주말 러닝</span>
+                </div>
+            </div>
+            <div class="skills-box">
+                <h3>자격증 & 어학 성적</h3>
+                <ul class="info-list">
+                    <li><strong>TOEIC</strong> <span>850점</span></li>
+                    <li><strong>컴퓨터활용능력</strong> <span>2급</span></li>
+                    <li><strong>GA4 인증</strong> <span>취득</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 연락처 및 푸터 -->
+    <footer>
+        <div class="footer-content fade-in-section">
+            <h3>Contact Me</h3>
+            <div class="contact-info">
+                <p>📧 이메일: huynhduc240523@gmail.com</p>
+                <p>💬 SNS/기타 ID: hiundueg</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 당후이득. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 스크롤 페이드인 기능을 위한 자바스크립트 -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            const sections = document.querySelectorAll('.fade-in-section');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
